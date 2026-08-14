@@ -27,6 +27,9 @@ all:
       ansible_remote_tmp: /tmp/.ansible/tmp
       ansible_user: root
 
+  vars:
+    cyclictest_result_folder: "."
+
 # The machine is standalone
 standalone_machine:
   hosts:
