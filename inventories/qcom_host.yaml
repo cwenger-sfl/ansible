@@ -41,7 +41,7 @@ hypervisors:
     seapath-host:
   vars:
     cyclictest_affinity: "0-7"
-    cyclictest_duration: 300 # 5 min
+    cyclictest_duration: 50400 # 5 min
     cyclictest_priority: 99
     isolcpus: "2-N" # List of CPUs to isolate (Debian only). TODO
 
