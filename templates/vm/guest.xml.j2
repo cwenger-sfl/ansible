@@ -42,11 +42,10 @@
     <currentMemory unit="MiB">{{ vm.memory | default ("2048") }}</currentMemory>
 {% endif %}
     <os{% if not vm_legacy_bios %} firmware="efi"{% endif %}>
-        <type arch="x86_64" machine="q35">hvm</type>
+        <type arch="aarch64" machine="virt-10.0">hvm</type>
         <boot dev="hd" />
         <bootmenu enable="no" />
 {% if not vm_legacy_bios %}
-        <bios useserial="yes" rebootTimeout="0" />
         <smbios mode="emulate" />
         <firmware>
             <feature enabled="{{ 'yes' if 'secure-boot' is in vm_features else 'no' }}" name="secure-boot"/>
@@ -56,7 +55,6 @@
     <features>
         <acpi />
         <apic />
-        <vmport state="off" />
 {% if "rt" in vm_features %}
         <pmu state="off" />
 {% endif %}
@@ -79,10 +77,8 @@
 {% if "rt" in vm_features %}
     <cpu mode="host-passthrough">
         <topology sockets="1" dies="1" cores="{{ cpu_nb }}" threads="1" />
-        <feature policy="require" name="tsc-deadline" />
 {% else %}
-    <cpu mode="host-model" check="partial">
-        <model fallback="allow" />
+    <cpu mode="host-passthrough">
 {% endif %}
 {% if "dpdk" in vm_features %}
         <numa>
@@ -96,18 +92,12 @@
     </cpu>
     <clock offset="utc">
         <timer name="rtc" tickpolicy="catchup" />
-        <timer name="pit" tickpolicy="delay" />
-        <timer name="hpet" present="no" />
     </clock>
     <on_poweroff>destroy</on_poweroff>
     <on_reboot>restart</on_reboot>
     <on_crash>destroy</on_crash>
-    <pm>
-        <suspend-to-mem enabled="no" />
-        <suspend-to-disk enabled="no" />
-    </pm>
     <devices>
-        <emulator>/usr/bin/qemu-system-x86_64</emulator>
+        <emulator>/usr/bin/qemu-system-aarch64</emulator>
 {% if "graphic-console" in vm_features %}
         <graphics type="vnc" port="-1" autoport="yes" listen="{{ vm.graphics_listen | default('127.0.0.1') }}">
             <listen type="address" address="{{ vm.graphics_listen | default('127.0.0.1') }}"/>
@@ -212,8 +202,8 @@
 {% endif %}
         <controller type="pci" index="0" model="pcie-root" />
         <serial type="pty">
-            <target type="isa-serial" port="0">
-                <model name="isa-serial" />
+            <target type="system-serial" port="0">
+                <model name="pl011" />
             </target>
         </serial>
         <console type="pty">
@@ -226,6 +216,5 @@
 {% else %}
         <memballoon model="none" />
 {% endif %}
-        <watchdog model="i6300esb" action="poweroff" />
     </devices>
 </domain>

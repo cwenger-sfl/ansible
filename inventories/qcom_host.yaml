@@ -57,4 +57,22 @@ rgwloadbalancers:
 rgws:
 cluster_machines:
 
+VMs:
+  hosts:
+    debian-arm64:
+      ansible_host: 192.168.200.162
+      ansible_user: root
+      vm_template: "{{ inventory_dir }}/../templates/vm/guest.xml.j2"
+      vm_disk: "../files/debian-arm64.qcow2"
+      rt: true
+      cpuset: [2, 3, 4, 5, 6, 7]
+      memory: 4096
+      force: true
+      enable: true
+      autostart: true
+      bridges:
+        - name: br0
+          mac_address: "8c:fd:f0:ae:ca:1c"
+
+
 ...
