@@ -12,6 +12,24 @@ all:
       interfaces_to_wait_for: ["end0"]
       gateway_addr: 192.168.200.1  # Administration Gateway.
       subnet: 24 # Subnet mask in CIDR notation.
+
+      # SV test network bridge
+      custom_netdev:
+        79-br-sv:
+          - NetDev:
+              - Name: "br-sv"
+              - Kind: "bridge"
+      custom_network:
+        79-br-sv:
+          - Match:
+              - Name: "br-sv"
+          - Network: {}
+        79-enx-sv:
+          - Match:
+              - Name: "enx0826ae394483"
+          - Network:
+              - Bridge: "br-sv"
+
       # Time synchronisation
       ptp_interface: end0 # PTP interface receiving PTP frames.
       ntp_servers:

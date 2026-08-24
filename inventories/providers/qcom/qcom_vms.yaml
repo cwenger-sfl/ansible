@@ -19,6 +19,8 @@ VMs:
       bridges:
         - name: br0
           mac_address: "8c:fd:f0:ae:ca:1c"
+        - name: br-sv
+          mac_address: "8c:fd:f0:ae:ca:1d"
   vars:
     cyclictest_affinity: "0-5"
     cyclictest_duration: 300
