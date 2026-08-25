@@ -4,7 +4,7 @@
 VMs:
   hosts:
     guest-arm64:
-      ansible_host: 192.168.200.162
+      ansible_host: 192.168.132.162
       ansible_user: admin
       arch: aarch64
       vm_template: "{{ inventory_dir }}/../../../templates/vm/guest.xml.j2"
